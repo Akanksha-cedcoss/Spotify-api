@@ -182,7 +182,7 @@ class NotificationsListener extends Injectable
             $token =$this->di->get('EventsManager')->fire('notifications:refresh_token', $this, $token);
             $result = json_decode($this->client->request('GET', 'search?q=' . urlencode($back['name']) . '&type=' . $back['filter'] . '&access_token=' . $token)->getBody(), true);
         }
-
+        // echo '<pre>'; print_r($result); die;
         foreach ($result as $key => $albums) {
             $album = array();
             $title = $key;
@@ -207,6 +207,7 @@ class NotificationsListener extends Injectable
                             'uri' => $item['uri']
                         ));
                         break;
+                    
                     case 'playlists':
                         break;
                     case 'shows':
@@ -220,6 +221,7 @@ class NotificationsListener extends Injectable
                     'name' => $item['name'],
                     'id' => $item['id'],
                     'image' => $item['images'][0]['url'] ?? '',
+                    'uri' => $item['uri'] ?? ''
                 ));
             }
             array_push($data, array($title => $album));

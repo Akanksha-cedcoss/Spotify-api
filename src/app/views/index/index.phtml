@@ -4,51 +4,62 @@
 <section id="products">
     <div class="container">
         <div class="row">
-        <?php
-        if (isset($album)) {
-            foreach ($album as $items) {
-                foreach ($items as $title=>$value) {
-                    echo "<div class='row'><h1>".$title."</h1></div><br>";
-                    foreach ($value as $item) {
-                        $details ='';
-                        foreach ($item['others'][0] as $k=>$v) {
-                            if ($k=='uri') {
-                                $details .= '<audio controls>
-                                    <source src="'.$v.'" type="audio/mpeg">
+            <?php
+            if (isset($album)) {
+                foreach ($album as $items) {
+                    foreach ($items as $title => $value) {
+                        echo "<div class='row'><h1>" . $title . "</h1></div><br>";
+                        foreach ($value as $item) {
+                            $details = '';
+
+                            foreach ($item['others'][0] as $k => $v) {
+                                if ($k == 'uri') {
+                                    $details .= '<audio controls>
+                                    <source src="' . $v . '" type="audio/mpeg">
                                 Your browser does not support the audio element.
-                              </audio><form method="post" action="http://localhost:8080/playlist/addToPlaylist/'.$v.'"><label for="playlist">Add to Playlist</label><select name="playlist" id="playlist">';
-                                foreach ($playlists as $list) {
-                                    $details .= '<option value="'.$list['id'].'">'.$list['name'].'</option>';
+                              </audio><form method="post" action="http://localhost:8080/playlist/addToPlaylist/' . $v . '"><label for="playlist">Add to Playlist</label><select name="playlist" id="playlist">';
+                                    foreach ($playlists as $list) {
+                                        $details .= '<option value="' . $list['id'] . '">' . $list['name'] . '</option>';
+                                    }
+                                    $details .= '<input type="submit" class="btn btn-warning"></select></form>';
+                                } else {
+                                    $details .= '<div class="text-muted">' . $k . ' : ' . $v . '</div>';
                                 }
-                                $details .= '<input type="submit" class="btn btn-warning"></select></form>';
-                            } else {
-                                $details .= '<div class="text-muted">'.$k.' : ' . $v . '</div>';
                             }
+                            if (isset($item['uri'])) {
+                                $details .= '<audio controls>
+                            <source src="' . $v . '" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                      </audio><form method="post" action="http://localhost:8080/playlist/addToPlaylist/' . $v . '"><label for="playlist">Add to Playlist</label><select name="playlist" id="playlist">';
+                        foreach ($playlists as $list) {
+                            $details .= '<option value="' . $list['id'] . '">' . $list['name'] . '</option>';
                         }
-                        $img = is_array($item['image'])?$item['image']['url']:$item['image'];
-                        echo '<div class="card shadow m-2" style="width: 22rem;">
-                        <img src="' .$img . '" class="card-img-top" alt="...">
+                        $details .= '<input type="submit" class="btn btn-warning"></select></form>';
+                            }
+                            $img = is_array($item['image']) ? $item['image']['url'] : $item['image'];
+                            echo '<div class="card shadow m-2" style="width: 22rem;">
+                        <img src="' . $img . '" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title">' . $item['name'] . '</h5>
-                          <p class="card-text">'.$details.'.</p>
+                          <p class="card-text">' . $details . '.</p>
                         </div>
                       </div>';
+                        }
                     }
                 }
-            }
-        } else {
-            foreach($recommendations as $track){
-                echo '<div class="card shadow m-2" style="width: 22rem;">
-                        <img src="' .$track['image'] . '" class="card-img-top" alt="...">
+            } else {
+                foreach ($recommendations as $track) {
+                    echo '<div class="card shadow m-2" style="width: 22rem;">
+                        <img src="' . $track['image'] . '" class="card-img-top" alt="...">
                         <div class="card-body">
                           <h5 class="card-title">' . $track['name'] . '</h5>
-                          <p class="card-text">Artist :'.$track['artist'].'.</p>
-                          <p class="card-text">Release Date :'.$track['release_date'].'.</p>
-                          <p class="card-text">Type :'.$track['type'].'.</p>
+                          <p class="card-text">Artist :' . $track['artist'] . '.</p>
+                          <p class="card-text">Release Date :' . $track['release_date'] . '.</p>
+                          <p class="card-text">Type :' . $track['type'] . '.</p>
                         </div>
                       </div>';
+                }
             }
-        }
             ?>
         </div>
     </div>

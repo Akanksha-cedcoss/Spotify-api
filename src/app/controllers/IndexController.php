@@ -25,7 +25,9 @@ class IndexController extends Controller
         if ($_POST) {
             if (!empty($_POST['check_list'])) {
                 $name = $_POST['search'];
+                
                 $this->view->album = $event->fire('notifications:filter', $this, array('name' => $name, 'filter' => implode(",", $_POST['check_list'])));
+                // echo '<pre>'; print_r($this->view->album); die;
                 $this->view->playlists = $event->fire('notifications:myPlaylists', $this);
             }
         }
